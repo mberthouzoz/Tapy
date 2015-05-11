@@ -1,19 +1,24 @@
 package model;
 
 import javax.sound.midi.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Song {
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
+    private int keyMin = 0xFF;
+    private int keyMax = 0;
 
     private Sequence sequence;
 
     private LinkedList<Note> notes;
+    private HashMap<Integer, Note> keySequ; // temporary <key, Note>
 
     public Song(Sequence sequence, int channel) {
         this.sequence = sequence;
         notes = new LinkedList<Note>();
+        keySequ = new HashMap<Integer, Note>();
 
         Track[] tracks = sequence.getTracks();
 
@@ -27,10 +32,27 @@ public class Song {
                     System.out.print("Channel: " + sm.getChannel() + " ");
 
                     if (sm.getChannel() == channel) {
-                        if(sm.getCommand() == NOTE_ON || sm.getCommand() == NOTE_OFF) {
+
+                        if(sm.getCommand() == NOTE_ON) {
                             Note n = new Note(sm);
-                            System.out.println(n.toString()); // debug
-                            notes.add(n);
+                            n.setBeginin(event.getTick());
+
+                            keySequ.put(n.getKey(), n);
+                        } else if(sm.getCommand() == NOTE_OFF) {
+                            int k = sm.getData1();
+                            Note n = keySequ.get(k);
+                            if(n != null) {
+                                keySequ.clear();
+                                n.setEnd(event.getTick());
+                                notes.add(n);
+
+                                int kTmp = n.getKey();
+                                if(kTmp < keyMin) {
+                                    keyMin = kTmp;
+                                } else if(kTmp > keyMax) {
+                                    keyMax = kTmp;
+                                }
+                            }
                         }
                     }
 
@@ -38,8 +60,9 @@ public class Song {
                     // Other message
                 }
             }
-
         }
+
+
     }
 
     public Song(Sequence sequence) {
@@ -48,6 +71,14 @@ public class Song {
 
     public LinkedList<Note> getNotes() {
         return notes;
+    }
+
+    public int getKeyMin() {
+        return keyMin;
+    }
+
+    public int getKeyMax() {
+        return keyMax;
     }
 
     public double getBPM() {
