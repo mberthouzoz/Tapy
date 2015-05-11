@@ -2,6 +2,7 @@
 // "Velocity" describe the volume (gain) of a MIDI note (higher velocity = louder).
 
 
+import model.Line;
 import model.Note;
 import model.Song;
 import model.SongsManager;
@@ -16,9 +17,12 @@ public class Main {
             SongsManager sm = new SongsManager();
             Song s = sm.load("mario_mono.mid");
 
-            System.out.println("\nNOTES:");
-            for (Note n : s.getNotes()) {
-                System.out.println(n.toString());
+            System.out.println("\n## NOTES: ##");
+            for (Line l : s.getLines()) {
+                System.out.println("Notes for Line[" + l.getNumber() + "]:");
+                for(Note n : l.getNotes()) {
+                    System.out.println(n.toString());
+                }
             }
 
 
