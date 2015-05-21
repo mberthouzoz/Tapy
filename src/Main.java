@@ -2,6 +2,7 @@
 // "Velocity" describe the volume (gain) of a MIDI note (higher velocity = louder).
 
 
+import gui.TapyGui;
 import model.Line;
 import model.Note;
 import model.Song;
@@ -11,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        TapyGui.show();
+        TapyGui.show();
 
         try {
             SongsManager sm = new SongsManager();

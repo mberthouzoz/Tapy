@@ -9,11 +9,14 @@ public class TapyGui {
 
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Tapy");
+        frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.add(new GamePanel());
-
+        GamePanel temp = new GamePanel();
+        frame.add(temp);
+        temp.repaint();
+        temp.startMoving();
         // Display the window.
+        frame.setResizable(false);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
