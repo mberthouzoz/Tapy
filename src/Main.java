@@ -12,11 +12,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TapyGui.show();
-
         try {
             SongsManager sm = new SongsManager();
             Song s = sm.load("mario_mono.mid");
+
+            TapyGui.show(s); // Show GUI
 
             System.out.println("\n## NOTES: ##");
             for (Line l : s.getLines()) {

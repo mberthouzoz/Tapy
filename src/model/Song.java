@@ -15,6 +15,7 @@ public class Song {
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     private static final int NB_LINES = 4;
+    private LinkedList<Note> notes;
 
     public Song(Sequence sequence, int channel) {
         this.sequence = sequence;
@@ -30,7 +31,7 @@ public class Song {
     private void load() {
 
         Track[] tracks = sequence.getTracks();
-        LinkedList<Note> notes = new LinkedList<Note>();
+        notes = new LinkedList<Note>();
         HashMap<Integer, Note> keySequ = new HashMap<Integer, Note>();
 
         for (Track track : tracks) {
@@ -86,6 +87,10 @@ public class Song {
 
             lines[index].addNote(n);
         }
+    }
+
+    public LinkedList<Note> getNotes() {
+        return notes;
     }
 
     public Line[] getLines() {

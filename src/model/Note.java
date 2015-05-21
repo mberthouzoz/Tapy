@@ -48,6 +48,10 @@ public class Note {
         this.beginin = beginin;
     }
 
+    public long getBeginin() {
+        return beginin;
+    }
+
     public void setEnd(long end) {
         this.end = end;
     }

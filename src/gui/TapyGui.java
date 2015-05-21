@@ -1,5 +1,7 @@
 package gui;
 
+import model.Song;
+
 import javax.swing.*;
 
 public class TapyGui {
@@ -7,11 +9,11 @@ public class TapyGui {
     public static int WIDTH = 600;
     public static int HEIGHT = 300;
 
-    private static void createAndShowGUI() {
+    private static void createAndShowGUI(Song s) {
         JFrame frame = new JFrame("Tapy");
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GamePanel temp = new GamePanel();
+        GamePanel temp = new GamePanel(s);
         frame.add(temp);
         temp.repaint();
         temp.startMoving();
@@ -22,7 +24,7 @@ public class TapyGui {
         frame.setVisible(true);
     }
 
-    public static void show() {
-        javax.swing.SwingUtilities.invokeLater(() -> createAndShowGUI());
+    public static void show(Song s) {
+        javax.swing.SwingUtilities.invokeLater(() -> createAndShowGUI(s));
     }
 }

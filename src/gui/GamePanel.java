@@ -1,19 +1,22 @@
 package gui;
 
-import javax.swing.*;
-
+import model.Line;
 import model.Note;
+import model.Song;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.LinkedList;
 
 public class GamePanel extends JPanel implements KeyListener {
-	
-	private int posY = 0;
-    public GamePanel() {
+
+    private final Song song;
+    private long posY = 0;
+
+    public GamePanel(Song s) {
+        song = s;
         setPreferredSize(new Dimension(TapyGui.WIDTH, TapyGui.HEIGHT));
         setFocusable(true);
         requestFocus();
@@ -27,16 +30,24 @@ public class GamePanel extends JPanel implements KeyListener {
     	g.setColor(Color.LIGHT_GRAY);
     	g.fillRect(0, TapyGui.HEIGHT-(TapyGui.HEIGHT/5), TapyGui.WIDTH, TapyGui.HEIGHT/10);
     	g.setColor(Color.BLACK);
-    	int temp = TapyGui.WIDTH/5;
-    	((Graphics2D)g).drawLine(temp, 0, temp, TapyGui.HEIGHT);
-    	((Graphics2D)g).drawLine(temp*2, 0, temp*2, TapyGui.HEIGHT);
-    	((Graphics2D)g).drawLine(temp*3, 0, temp*3, TapyGui.HEIGHT);
-    	((Graphics2D)g).drawLine(temp*4, 0, temp*4, TapyGui.HEIGHT);
-    	g.setColor(Color.RED);
-    	g.fillOval(temp-10, posY, 20, 20);
-    	g.fillOval(temp*2 - 10, posY - 100, 20, 20);
-    	
-    	
+
+
+        LinkedList<Note> notes = song.getNotes();
+        int temp = TapyGui.WIDTH/5;
+        g.drawLine(temp, 0, temp, TapyGui.HEIGHT);
+        g.drawLine(temp * 2, 0, temp * 2, TapyGui.HEIGHT);
+        g.drawLine(temp * 3, 0, temp * 3, TapyGui.HEIGHT);
+        g.drawLine(temp * 4, 0, temp * 4, TapyGui.HEIGHT);
+
+        for (Line l : song.getLines()) {
+
+            for(Note n : l.getNotes()) {
+                g.setColor(Color.RED);
+                g.fillOval(temp * (l.getNumber() + 1) - 10, (int) (posY - n.getBeginin() / 5), 20, (int) n.getLength() / 15);
+            }
+        }
+
+
     }
 
     @Override
@@ -53,18 +64,12 @@ public class GamePanel extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent e) {
 
     }
+
     public void startMoving(){
-		Timer timer = new Timer(20, new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				posY++;
-				repaint();
-				
-				
-			}
-		});
+		Timer timer = new Timer(15, e -> {
+            posY += 2;
+            repaint();
+        });
 		timer.start();
 
 	}
