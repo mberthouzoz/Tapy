@@ -10,7 +10,7 @@ public class Note {
     private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
     private static final int NOTE_ON = 0x90;
     private static final int NOTE_OFF = 0x80;
-    private long beginin;
+    private long tick;
     private long end;
 
     public Note(ShortMessage sm) {
@@ -44,12 +44,12 @@ public class Note {
         return key;
     }
 
-    public void setBeginin(long beginin) {
-        this.beginin = beginin;
+    public void setTick(long tick) {
+        this.tick = tick;
     }
 
-    public long getBeginin() {
-        return beginin;
+    public long getTick() {
+        return tick;
     }
 
     public void setEnd(long end) {
@@ -57,12 +57,12 @@ public class Note {
     }
 
     public long getLength() {
-        return end - beginin;
+        return end - tick;
     }
 
     @Override
     public String toString() {
-        String s = "@" + beginin + " [" + getLength()  + "]" + getName() + getOctave() + " key=" + key + " velocity: " + velocity;
+        String s = "@" + tick + " [" + getLength()  + "]" + getName() + getOctave() + " key=" + key + " velocity: " + velocity;
 //        String s = getName() + getOctave() + " key=" + key + " velocity: " + velocity;
 
 //        if(noteBegin) {

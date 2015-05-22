@@ -7,7 +7,7 @@ import javax.swing.*;
 public class TapyGui {
 
     public static int WIDTH = 600;
-    public static int HEIGHT = 300;
+    public static int HEIGHT = 600;
 
     private static void createAndShowGUI(Song s) {
         JFrame frame = new JFrame("Tapy");

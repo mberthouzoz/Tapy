@@ -47,7 +47,7 @@ public class Song {
 
                         if (sm.getCommand() == NOTE_ON) {
                             Note n = new Note(sm);
-                            n.setBeginin(event.getTick());
+                            n.setTick(event.getTick());
 
                             keySequ.put(n.getKey(), n);
                         } else if (sm.getCommand() == NOTE_OFF) {
@@ -89,10 +89,6 @@ public class Song {
         }
     }
 
-    public LinkedList<Note> getNotes() {
-        return notes;
-    }
-
     public Line[] getLines() {
         return lines;
     }
@@ -120,4 +116,40 @@ public class Song {
         return Math.round(1000 * (60000.0 / ms_per_tick / PPQ));
     }
 
+    public long getFirstTick() {
+        return notes.getFirst().getTick();
+    }
+
+    public float getFramesPerSecond() {
+        float divisionType = sequence.getDivisionType();
+
+        float framesPerSecond = 24;
+        if(divisionType == Sequence.SMPTE_24) {
+            framesPerSecond = 24;
+        }
+        else if(divisionType == Sequence.SMPTE_25) {
+            framesPerSecond = 25;
+        }
+        else if(divisionType == Sequence.SMPTE_30) {
+            framesPerSecond = 30;
+        }
+        else if(divisionType == Sequence.SMPTE_30DROP) {
+            framesPerSecond = (float) 29.97;
+        }
+
+        return framesPerSecond;
+    }
+
+    public float getTicksPerSecond() {
+//        framesPerSecond = (divisionType == Sequence.SMPTE_24 ? 24.0
+//                : (divisionType == Sequence.SMPTE_25 ? 25.0
+//                : (divisionType == Sequence.SMPTE_30 ? 30.0
+//                : (divisionType == Sequence.SMPTE_30DROP ? 29.97))));
+
+        return sequence.getResolution() * getFramesPerSecond();
+    }
+
+    public long getLastTick() {
+        return notes.getLast().getTick();
+    }
 }
