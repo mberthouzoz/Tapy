@@ -4,35 +4,21 @@ import javax.sound.midi.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Song {
-    private final int channel;
+public class Channel {
     // lines
     private Line[] lines = new Line[NB_LINES];
-    private Sequence sequence;
-    private int keyMin = 0xFF;
-    private int keyMax = 0;
-
+    private final long firstTick;
+    private final long lastTick;
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     private static final int NB_LINES = 4;
-    private LinkedList<Note> notes;
 
-    public Song(Sequence sequence, int channel) {
-        this.sequence = sequence;
-        this.channel = channel;
-
-        load();
-    }
-
-    public Song(Sequence sequence) {
-        this(sequence, 0);
-    }
-
-    private void load() {
-
-        Track[] tracks = sequence.getTracks();
-        notes = new LinkedList<Note>();
+    public Channel(Track[] tracks, int channel) {
+        LinkedList<Note> notes = new LinkedList<>();
         HashMap<Integer, Note> keySequ = new HashMap<Integer, Note>();
+
+        int keyMin = 0xFF;
+        int keyMax = 0;
 
         for (Track track : tracks) {
             for (int i = 0; i < track.size(); ++i) {
@@ -87,6 +73,9 @@ public class Song {
 
             lines[index].addNote(n);
         }
+
+        firstTick = notes.getFirst().getTick();
+        lastTick = notes.getLast().getTick();
     }
 
     public Line[] getLines() {
@@ -97,59 +86,11 @@ public class Song {
         return lines[i];
     }
 
-    public int getKeyMin() {
-        return keyMin;
-    }
-
-    public int getKeyMax() {
-        return keyMax;
-    }
-
-    public double getBPM() {
-        // https://github.com/estine/tmig/blob/master/Code/TMIG.java
-        long MicroLen = sequence.getMicrosecondLength();
-        long TickLen = sequence.getTickLength();
-        int PPQ = sequence.getResolution();
-
-        double ms_per_tick = (double) MicroLen / TickLen;
-
-        return Math.round(1000 * (60000.0 / ms_per_tick / PPQ));
-    }
-
     public long getFirstTick() {
-        return notes.getFirst().getTick();
-    }
-
-    public float getFramesPerSecond() {
-        float divisionType = sequence.getDivisionType();
-
-        float framesPerSecond = 24;
-        if(divisionType == Sequence.SMPTE_24) {
-            framesPerSecond = 24;
-        }
-        else if(divisionType == Sequence.SMPTE_25) {
-            framesPerSecond = 25;
-        }
-        else if(divisionType == Sequence.SMPTE_30) {
-            framesPerSecond = 30;
-        }
-        else if(divisionType == Sequence.SMPTE_30DROP) {
-            framesPerSecond = (float) 29.97;
-        }
-
-        return framesPerSecond;
-    }
-
-    public float getTicksPerSecond() {
-//        framesPerSecond = (divisionType == Sequence.SMPTE_24 ? 24.0
-//                : (divisionType == Sequence.SMPTE_25 ? 25.0
-//                : (divisionType == Sequence.SMPTE_30 ? 30.0
-//                : (divisionType == Sequence.SMPTE_30DROP ? 29.97))));
-
-        return sequence.getResolution() * getFramesPerSecond();
+        return firstTick;
     }
 
     public long getLastTick() {
-        return notes.getLast().getTick();
+        return lastTick;
     }
 }

@@ -1,28 +1,35 @@
 package gui;
 
+import model.Channel;
 import model.Line;
 import model.Note;
 import model.Song;
+import org.jdesktop.swingx.JXPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends JXPanel implements KeyListener {
 
     private final Song song;
+    private final Channel chan;
+    private final int zoneY;
     private long posY = TapyGui.HEIGHT / 3;
     private int globalI = 2;
 
-    public GamePanel(Song s) {
+    public GamePanel(Song s, int chanNb) {
         song = s;
+        chan = s.getChannel(chanNb);
         setPreferredSize(new Dimension(TapyGui.WIDTH, TapyGui.HEIGHT));
         setFocusable(true);
         requestFocus();
         addKeyListener(this);
 
-        System.out.println(">>>>>> " + song.getLastTick());
+        zoneY = TapyGui.HEIGHT - (TapyGui.HEIGHT / 6);
+
+        System.out.println(">>Last " + chan.getLastTick());
         System.out.println(">>>BPM " + song.getBPM());
         System.out.println(">>>TPS " + song.getTicksPerSecond());
     }
@@ -31,13 +38,18 @@ public class GamePanel extends JPanel implements KeyListener {
     public void paintComponent(Graphics g) {
     	super.paintComponents(g);
 
-    	g.setColor(Color.WHITE);
+        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 9));
+
+        g.setColor(new Color(236, 240, 241));
     	g.fillRect(0, 0, TapyGui.WIDTH, TapyGui.HEIGHT);
-    	g.setColor(Color.LIGHT_GRAY);
-    	g.fillRect(0, TapyGui.HEIGHT-(TapyGui.HEIGHT/5), TapyGui.WIDTH, TapyGui.HEIGHT/10);
+
+        // active zone
+    	g.setColor(new Color(189, 195, 199, 80));
+    	g.fillRect(0, zoneY, TapyGui.WIDTH, 20);
+
     	g.setColor(Color.BLACK);
 
-        int temp = TapyGui.WIDTH/5;
+        int temp = TapyGui.WIDTH / 5;
         g.drawLine(temp, 0, temp, TapyGui.HEIGHT);
         g.drawLine(temp * 2, 0, temp * 2, TapyGui.HEIGHT);
         g.drawLine(temp * 3, 0, temp * 3, TapyGui.HEIGHT);
@@ -45,7 +57,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         int mult = 10;
 
-        for (Line l : song.getLines()) {
+        for (Line l : chan.getLines()) {
 
             int x = temp * (l.getNumber() + 1);
 
@@ -53,12 +65,17 @@ public class GamePanel extends JPanel implements KeyListener {
                 int y = (int) (posY - n.getTick() / mult);
                 int len = (int) (n.getLength()) / mult;
 
-                g.setColor(Color.RED);
+                if(y > zoneY) {
+                    g.setColor(new Color(190, 40, 40));
+                } else {
+                    g.setColor(new Color(231, 76, 60));
+                }
+
                 g.fillRoundRect(x - 10, y - len, 20, len, 10, 10);
 
-                g.setColor(Color.BLUE);
-                g.drawString(n.getName(), x - 18, y + 10);
-                g.drawString(String.valueOf(n.getTick()), x + 18, y + 10);
+                g.setColor(new Color(41, 128, 185));
+                g.drawString(n.getName(), x - 18, y - len / 2 + 5);
+                g.drawString(String.valueOf(n.getTick()), x + 18, y - len / 2 + 5);
             }
 
             // Mesures
@@ -72,7 +89,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 }
                 nMes++;
 
-                g.setColor(Color.BLACK);
+                g.setColor(new Color(0, 0, 0, 150));
                 g.drawLine(x - 3, y, x + 3, y);
             }
         }
@@ -86,28 +103,40 @@ public class GamePanel extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-//        System.out.println(e.getKeyCode());
+        System.out.println(e.getKeyCode());
 
-        int code = e.getKeyCode();
-        // haut
-        if(code == 38) {
-            globalI = -2;
-        }
-        // bas
-        else if(code == 40) {
-            globalI = 2;
-        }
-        // q
-        else if(code == 81) {
-            globalI = -8;
-        }
-        // a
-        else if(code == 65) {
-            globalI = 8;
-        }
-        // space
-        else if(code == 32) {
-            globalI = 0;
+        switch (e.getKeyCode()) {
+            case 89 :
+                globalI = - 2;
+                break;
+            case 88 :
+                globalI = - 2;
+                break;
+            case 67 :
+                globalI = - 2;
+                break;
+            case 86 :
+                globalI = - 2;
+                break;
+            // haut
+            case 38 :
+                globalI = - 2;
+                break;
+            // bas
+            case 40 :
+                globalI = 2;
+                break;
+            // q
+            case 81 :
+                globalI = - 10;
+                break;
+            // a
+            case 65 :
+                globalI = 10;
+                break;
+            default :
+                globalI = 0;
+                break;
         }
     }
 

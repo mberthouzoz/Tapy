@@ -63,13 +63,6 @@ public class Note {
     @Override
     public String toString() {
         String s = "@" + tick + " [" + getLength()  + "]" + getName() + getOctave() + " key=" + key + " velocity: " + velocity;
-//        String s = getName() + getOctave() + " key=" + key + " velocity: " + velocity;
-
-//        if(noteBegin) {
-//            s = "Note on,  " + s;
-//        } else {
-//            s = "Note off, " + s;
-//        }
 
         return s;
     }
