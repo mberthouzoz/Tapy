@@ -6,18 +6,24 @@ import model.Note;
 import model.Song;
 import org.jdesktop.swingx.JXPanel;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 public class GamePanel extends JXPanel implements KeyListener {
 
     private final Song song;
     private final Channel chan;
     private final int zoneY;
-    private long posY = TapyGui.HEIGHT / 3;
+    private final int framePerSec;
+    private long posY = TapyGui.HEIGHT / 2;
     private int globalI = 2;
+    private boolean isPlaying = false;
+    private boolean isRunning = true;
 
     public GamePanel(Song s, int chanNb) {
         song = s;
@@ -29,9 +35,13 @@ public class GamePanel extends JXPanel implements KeyListener {
 
         zoneY = TapyGui.HEIGHT - (TapyGui.HEIGHT / 6);
 
+        framePerSec = (int) song.getFramesPerSecond();
+
+        System.out.println("---");
         System.out.println(">>Last " + chan.getLastTick());
         System.out.println(">>>BPM " + song.getBPM());
         System.out.println(">>>TPS " + song.getTicksPerSecond());
+        System.out.println(">>>FPS " + song.getFramesPerSecond());
     }
 
     @Override
@@ -44,7 +54,7 @@ public class GamePanel extends JXPanel implements KeyListener {
     	g.fillRect(0, 0, TapyGui.WIDTH, TapyGui.HEIGHT);
 
         // active zone
-    	g.setColor(new Color(189, 195, 199, 80));
+    	g.setColor(new Color(46, 204, 113, 80));
     	g.fillRect(0, zoneY, TapyGui.WIDTH, 20);
 
     	g.setColor(Color.BLACK);
@@ -65,7 +75,7 @@ public class GamePanel extends JXPanel implements KeyListener {
                 int y = (int) (posY - n.getTick() / mult);
                 int len = (int) (n.getLength()) / mult;
 
-                if(y > zoneY) {
+                if(y > zoneY && y < zoneY + 20) {
                     g.setColor(new Color(190, 40, 40));
                 } else {
                     g.setColor(new Color(231, 76, 60));
@@ -80,20 +90,34 @@ public class GamePanel extends JXPanel implements KeyListener {
 
             // Mesures
             int nMes = 0;
-            for (int i = 0; i < l.getLastTick(); i += song.getFramesPerSecond() * 10) {
+            for (int i = 0; i < l.getLastTick(); i += framePerSec * mult) {
                 int y = (int) (posY - i / mult);
 
-                if(nMes % 8 == 0) {
-                    g.setColor(Color.GRAY);
+                if(nMes % 4 == 0) {
+                    g.setColor(new Color(80, 80, 80, 120));
                     g.drawLine(x - 20, y, x + 20, y);
                 }
                 nMes++;
 
-                g.setColor(new Color(0, 0, 0, 150));
+                g.setColor(new Color(0, 0, 0, 120));
                 g.drawLine(x - 3, y, x + 3, y);
             }
         }
 
+        if(!isPlaying && posY > zoneY) {
+            try {
+                song.play();
+            } catch (MidiUnavailableException | InvalidMidiDataException | IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Let the song begin !");
+            isPlaying = true;
+        }
+
+
+//        if(isRunning) {
+//            repaint();
+//        }
     }
 
     @Override
@@ -107,24 +131,24 @@ public class GamePanel extends JXPanel implements KeyListener {
 
         switch (e.getKeyCode()) {
             case 89 :
-                globalI = - 2;
+                globalI = - 1;
                 break;
             case 88 :
-                globalI = - 2;
+                globalI = 1;
                 break;
             case 67 :
-                globalI = - 2;
+                globalI = - 3;
                 break;
             case 86 :
-                globalI = - 2;
+                globalI = 3;
                 break;
             // haut
             case 38 :
-                globalI = - 2;
+                globalI = - 1;
                 break;
             // bas
             case 40 :
-                globalI = 2;
+                globalI = 1;
                 break;
             // q
             case 81 :
@@ -145,10 +169,21 @@ public class GamePanel extends JXPanel implements KeyListener {
     }
 
     public void startMoving(){
-		Timer timer = new Timer(20, e -> {
+
+//        int t = (int) (song.getBPM() / 60 * 1.75 / 4);
+
+        int t = (int)(1000 / song.getFramesPerSecond() / 2);
+
+        System.out.println("\n---\n" + t + "\n---\n");
+
+		Timer timer = new Timer(t, e -> {
             posY += globalI;
-            repaint();
+
+            if(isRunning) {
+                repaint();
+            }
         });
+
 		timer.start();
 	}
 }

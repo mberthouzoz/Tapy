@@ -11,11 +11,12 @@ public class Main {
 
         try {
             SongsManager sm = new SongsManager();
-//            Song s = sm.load("mario_mono.mid");
-            Song s = sm.load("AC-DC_Hells_Bells.mid");
+            Song s = sm.load("mario_mono.mid");
+//            Song s = sm.load("Chuck_Berry_-_Johnny_B_Goode.mid");
+//            Song s = sm.load("AC-DC_Hells_Bells.mid");
 
-            TapyGui.show(s, 1); // Show GUI
-            s.play();
+//            TapyGui.show(s, 0); // Show GUI
+            TapyGui.show(s, 0); // Show GUI
 
 //            System.out.println("\n## NOTES: ##");
 //            for (Line l : s.getChannel(0).getLines()) {

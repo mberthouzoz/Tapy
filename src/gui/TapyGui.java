@@ -13,10 +13,12 @@ public class TapyGui {
         JFrame frame = new JFrame("Tapy");
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GamePanel temp = new GamePanel(s, chanNb);
-        frame.add(temp);
-        temp.repaint();
-        temp.startMoving();
+        GamePanel gamePane = new GamePanel(s, chanNb);
+        frame.add(gamePane);
+        gamePane.repaint();
+        gamePane.startMoving();
+
+        frame.setIgnoreRepaint(true); // Make active rendering possible
 
         // Display the window
         frame.setResizable(false);
