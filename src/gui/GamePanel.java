@@ -1,41 +1,126 @@
 package gui;
 
-import javax.swing.*;
-
+import model.Channel;
+import model.Line;
 import model.Note;
+import model.Song;
+import org.jdesktop.swingx.JXPanel;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
-public class GamePanel extends JPanel implements KeyListener {
-	
-	private int posY = 0;
-    public GamePanel() {
+public class GamePanel extends JXPanel implements KeyListener {
+
+    private final Song song;
+    private final Channel chan;
+    private final int zoneY;
+    private final int framePerSec;
+    private long posY = TapyGui.HEIGHT / 2;
+    private int globalI = 2;
+    private boolean isPlaying = false;
+    private boolean isRunning = true;
+
+    public GamePanel(Song s, int chanNb) {
+        song = s;
+        chan = s.getChannel(chanNb);
         setPreferredSize(new Dimension(TapyGui.WIDTH, TapyGui.HEIGHT));
         setFocusable(true);
         requestFocus();
+        addKeyListener(this);
+
+        zoneY = TapyGui.HEIGHT - (TapyGui.HEIGHT / 6);
+
+        framePerSec = (int) song.getFramesPerSecond();
+
+        System.out.println("---");
+        System.out.println(">>Last " + chan.getLastTick());
+        System.out.println(">>>BPM " + song.getBPM());
+        System.out.println(">>>TPS " + song.getTicksPerSecond());
+        System.out.println(">>>FPS " + song.getFramesPerSecond());
     }
     
 
     @Override
     public void paintComponent(Graphics g) {
-    	super.paintComponent(g);
-    	g.setColor(Color.LIGHT_GRAY);
-    	g.fillRect(0, TapyGui.HEIGHT-(TapyGui.HEIGHT/5), TapyGui.WIDTH, TapyGui.HEIGHT/10);
+
+    	super.paintComponents(g);
+
+        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, 9));
+
+        g.setColor(new Color(236, 240, 241));
+    	g.fillRect(0, 0, TapyGui.WIDTH, TapyGui.HEIGHT);
+
+        // active zone
+    	g.setColor(new Color(46, 204, 113, 80));
+    	g.fillRect(0, zoneY, TapyGui.WIDTH, 20);
+
+
     	g.setColor(Color.BLACK);
-    	int temp = TapyGui.WIDTH/5;
-    	((Graphics2D)g).drawLine(temp, 0, temp, TapyGui.HEIGHT);
-    	((Graphics2D)g).drawLine(temp*2, 0, temp*2, TapyGui.HEIGHT);
-    	((Graphics2D)g).drawLine(temp*3, 0, temp*3, TapyGui.HEIGHT);
-    	((Graphics2D)g).drawLine(temp*4, 0, temp*4, TapyGui.HEIGHT);
-    	g.setColor(Color.RED);
-    	g.fillOval(temp-10, posY, 20, 20);
-    	g.fillOval(temp*2 - 10, posY - 100, 20, 20);
-    	
-    	
+
+        int temp = TapyGui.WIDTH / 5;
+        g.drawLine(temp, 0, temp, TapyGui.HEIGHT);
+        g.drawLine(temp * 2, 0, temp * 2, TapyGui.HEIGHT);
+        g.drawLine(temp * 3, 0, temp * 3, TapyGui.HEIGHT);
+        g.drawLine(temp * 4, 0, temp * 4, TapyGui.HEIGHT);
+
+        int mult = 10;
+
+        for (Line l : chan.getLines()) {
+
+            int x = temp * (l.getNumber() + 1);
+
+            for(Note n : l.getNotes()) {
+                int y = (int) (posY - n.getTick() / mult);
+                int len = (int) (n.getLength()) / mult;
+
+                if(y > zoneY && y < zoneY + 20) {
+                    g.setColor(new Color(190, 40, 40));
+                } else {
+                    g.setColor(new Color(231, 76, 60));
+                }
+
+                g.fillRoundRect(x - 10, y - len, 20, len, 10, 10);
+
+                g.setColor(new Color(41, 128, 185));
+                g.drawString(n.getName(), x - 18, y - len / 2 + 5);
+                g.drawString(String.valueOf(n.getTick()), x + 18, y - len / 2 + 5);
+            }
+
+            // Mesures
+            int nMes = 0;
+            for (int i = 0; i < l.getLastTick(); i += framePerSec * mult) {
+                int y = (int) (posY - i / mult);
+
+                if(nMes % 4 == 0) {
+                    g.setColor(new Color(80, 80, 80, 120));
+                    g.drawLine(x - 20, y, x + 20, y);
+                }
+                nMes++;
+
+                g.setColor(new Color(0, 0, 0, 120));
+                g.drawLine(x - 3, y, x + 3, y);
+            }
+        }
+
+        if(!isPlaying && posY > zoneY) {
+            try {
+                song.play();
+            } catch (MidiUnavailableException | InvalidMidiDataException | IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Let the song begin !");
+            isPlaying = true;
+        }
+
+
+//        if(isRunning) {
+//            repaint();
+//        }
     }
 
     @Override
@@ -45,26 +130,63 @@ public class GamePanel extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println(e.getKeyCode());
 
+        switch (e.getKeyCode()) {
+            case 89 :
+                globalI = - 1;
+                break;
+            case 88 :
+                globalI = 1;
+                break;
+            case 67 :
+                globalI = - 3;
+                break;
+            case 86 :
+                globalI = 3;
+                break;
+            // haut
+            case 38 :
+                globalI = - 1;
+                break;
+            // bas
+            case 40 :
+                globalI = 1;
+                break;
+            // q
+            case 81 :
+                globalI = - 10;
+                break;
+            // a
+            case 65 :
+                globalI = 10;
+                break;
+            default :
+                globalI = 0;
+                break;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
-    public void startMoving(){
-		Timer timer = new Timer(20, new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				posY++;
-				repaint();
-				
-				
-			}
-		});
-		timer.start();
 
+    public void startMoving(){
+
+//        int t = (int) (song.getBPM() / 60 * 1.75 / 4);
+
+        int t = (int)(1000 / song.getFramesPerSecond() / 2);
+
+        System.out.println("\n---\n" + t + "\n---\n");
+
+		Timer timer = new Timer(t, e -> {
+            posY += globalI;
+
+            if(isRunning) {
+                repaint();
+            }
+        });
+
+		timer.start();
 	}
 }

@@ -13,6 +13,14 @@ public class Line {
         notes = new LinkedList<Note>();
     }
 
+    public long getFirstTick() {
+        return notes.getFirst().getTick();
+    }
+
+    public long getLastTick() {
+        return notes.getLast().getTick();
+    }
+
     public void addNote(Note n) {
         notes.add(n);
     }
@@ -24,6 +32,4 @@ public class Line {
     public int getNumber() {
         return number;
     }
-
-    //    notes;
 }

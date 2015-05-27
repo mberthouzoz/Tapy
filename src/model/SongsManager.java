@@ -1,15 +1,17 @@
 package model;
 
 import javax.sound.midi.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class SongsManager {
 
-    public Song load(String fileName) throws InvalidMidiDataException, IOException {
-        File songf = new File("data/" + fileName);
+    private Sequence sequence;
+    private File songFile;
 
-        Sequence sequence = MidiSystem.getSequence(songf);
+    public Song load(String fileName) throws InvalidMidiDataException, IOException {
+        songFile = new File("data/" + fileName);
+
+        sequence = MidiSystem.getSequence(songFile);
 
         return new Song(sequence);
     }
