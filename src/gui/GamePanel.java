@@ -18,12 +18,11 @@ public class GamePanel extends JPanel implements KeyListener {
         setFocusable(true);
         requestFocus();
     }
+    
 
     @Override
     public void paintComponent(Graphics g) {
-    	super.paintComponents(g);
-    	g.setColor(Color.WHITE);
-    	g.fillRect(0, 0, TapyGui.WIDTH, TapyGui.HEIGHT);
+    	super.paintComponent(g);
     	g.setColor(Color.LIGHT_GRAY);
     	g.fillRect(0, TapyGui.HEIGHT-(TapyGui.HEIGHT/5), TapyGui.WIDTH, TapyGui.HEIGHT/10);
     	g.setColor(Color.BLACK);
