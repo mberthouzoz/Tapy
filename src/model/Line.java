@@ -2,15 +2,23 @@ package model;
 
 import java.util.LinkedList;
 
-public class Line {
+public class Line implements Cloneable {
 
     private int number;
     private LinkedList<Note> notes;
+
+    public Line() {
+        notes = new LinkedList<Note>();
+    }
 
     public Line(int number) {
         this.number = number;
 
         notes = new LinkedList<Note>();
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public long getFirstTick() {
@@ -31,5 +39,18 @@ public class Line {
 
     public int getNumber() {
         return number;
+    }
+
+    public Object clone() {
+        Object clone = null;
+
+        try {
+            clone = super.clone();
+
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        return clone;
     }
 }

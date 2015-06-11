@@ -2,7 +2,7 @@ package model;
 
 import javax.sound.midi.ShortMessage;
 
-public class Note {
+public class Note implements Cloneable{
 
     private int velocity;
     private int key;
@@ -12,6 +12,10 @@ public class Note {
     private static final int NOTE_OFF = 0x80;
     private long tick;
     private long end;
+
+    public Note() {
+
+    }
 
     public Note(ShortMessage sm) {
         key = sm.getData1();
@@ -34,6 +38,16 @@ public class Note {
     public String getName() {
         int note = key % 12;
         return NOTE_NAMES[note];
+    }
+
+    public void setShortMessage(ShortMessage sm) {
+        key = sm.getData1();
+        velocity = sm.getData2();
+        if(sm.getCommand() == NOTE_ON) {
+            noteBegin = true;
+        } else if (sm.getCommand() == NOTE_OFF) {
+            noteBegin = false;
+        }
     }
 
     public int getVelocity() {
@@ -65,5 +79,18 @@ public class Note {
         String s = "@" + tick + " [" + getLength()  + "]" + getName() + getOctave() + " key=" + key + " velocity: " + velocity;
 
         return s;
+    }
+
+    public Object clone() {
+        Object clone = null;
+
+        try {
+            clone = super.clone();
+
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        return clone;
     }
 }

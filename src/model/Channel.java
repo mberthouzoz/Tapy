@@ -16,7 +16,9 @@ public class Channel {
     public Channel(Track[] tracks, int channel) {
         LinkedList<Note> notes = new LinkedList<>();
         HashMap<Integer, Note> keySequ = new HashMap<Integer, Note>();
-
+        // Prototype
+        Note note = new Note();
+        Line line = new Line();
         int keyMin = 0xFF;
         int keyMax = 0;
 
@@ -32,7 +34,8 @@ public class Channel {
                     if (sm.getChannel() == channel) {
 
                         if (sm.getCommand() == NOTE_ON) {
-                            Note n = new Note(sm);
+                            Note n = (Note) note.clone();
+                            n.setShortMessage(sm);
                             n.setTick(event.getTick());
 
                             keySequ.put(n.getKey(), n);
@@ -61,9 +64,9 @@ public class Channel {
         }
 
         int interval = keyMax - keyMin;
-
         for (int i = 0; i < NB_LINES; i++) {
-            Line l = new Line(i);
+            Line l = (Line) line.clone();
+            l.setNumber(i);
             lines[i] = l;
         }
 
