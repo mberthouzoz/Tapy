@@ -9,7 +9,7 @@ public class SongsManager {
     private File songFile;
 
     public Song load(String fileName) throws InvalidMidiDataException, IOException {
-        songFile = new File("data/" + fileName);
+        songFile = new File(fileName);
 
         sequence = MidiSystem.getSequence(songFile);
 
