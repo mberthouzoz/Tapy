@@ -65,7 +65,7 @@ public class Channel {
 
         int interval = keyMax - keyMin;
         for (int i = 0; i < NB_LINES; i++) {
-            Line l = (Line) line.clone();
+            Line l = line.clone();
             l.setNumber(i);
             lines[i] = l;
         }

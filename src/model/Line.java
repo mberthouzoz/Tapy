@@ -41,15 +41,17 @@ public class Line implements Cloneable {
         return number;
     }
 
-    public Object clone() {
-        Object clone = null;
+    public Line clone(  ) {
+        Line clone = null;
 
         try {
-            clone = super.clone();
+            clone = (Line) super.clone();
 
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+
+        clone.notes = new LinkedList<Note>();
 
         return clone;
     }
