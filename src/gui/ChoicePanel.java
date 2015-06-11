@@ -5,12 +5,19 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import model.Song;
+import model.SongsManager;
 
 public class ChoicePanel extends JPanel {
 	JButton chooseFileButton, startButton;
@@ -30,11 +37,13 @@ public class ChoicePanel extends JPanel {
 				
 				path.setText(fileChooser.getSelectedFile().getPath());
 				
+				
 			}
 		});
 		
 		startButton = new JButton("Lancer Partie");
-		
+		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("MIDI File", "mid"));
 		startButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -45,7 +54,17 @@ public class ChoicePanel extends JPanel {
 					if(!test.exists()){
 						System.out.println("Erreur : Fichier introuvable");
 					}else{
-						System.out.println(temp);
+						
+			            
+						try {
+							SongsManager sm = new SongsManager();
+							Song s = sm.load(temp);
+							TapyGui.show(s, 0); 
+						} catch (InvalidMidiDataException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			            
 					}
 				}else{
 					System.out.println("Erreur : séléctionnez un fichier pour commencer");
@@ -54,7 +73,7 @@ public class ChoicePanel extends JPanel {
 			}
 		});
 		
-		fileChooser = new JFileChooser();
+		
 		text = new JLabel("Séléctionez un fichier midi");
 		path = new JTextField();
 		path.setSize(new Dimension(100, 100));
