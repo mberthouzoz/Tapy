@@ -11,7 +11,7 @@ public class Main {
 
         try {
             SongsManager sm = new SongsManager();
-            Song s = sm.load("elise.mid");
+            Song s = sm.load("mario.mid");
 //            Song s = sm.load("Chuck_Berry_-_Johnny_B_Goode.mid");
 //            Song s = sm.load("AC-DC_Hells_Bells.mid");
 

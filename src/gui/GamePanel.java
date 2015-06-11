@@ -4,7 +4,7 @@ import model.Channel;
 import model.Line;
 import model.Note;
 import model.Song;
-import org.jdesktop.swingx.JXPanel;
+//import org.jdesktop.swingx.JXPanel;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class GamePanel extends JXPanel implements KeyListener {
+public class GamePanel extends JPanel implements KeyListener {
 
     private final Song song;
     private final Channel chan;
