@@ -67,7 +67,7 @@ public class Channel {
             lines[i] = l;
         }
 
-        for(Note n : notes) {
+        for (Note n : notes) {
             float key = n.getKey();
             int index = (int) Math.round((key - keyMin) / interval * (NB_LINES - 1));
 

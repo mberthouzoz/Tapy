@@ -20,7 +20,7 @@ public class GamePanel extends JXPanel implements KeyListener {
     private final Channel chan;
     private final int zoneY;
     private final int framePerSec;
-    private long posY = TapyGui.HEIGHT / 2;
+    private double posY = TapyGui.HEIGHT / 2;
     private int globalI = 2;
     private boolean isPlaying = false;
     private boolean isRunning = true;
@@ -84,7 +84,9 @@ public class GamePanel extends JXPanel implements KeyListener {
                     g.setColor(new Color(231, 76, 60));
                 }
 
-                g.fillRoundRect(x - 10, y - len, 20, len, 10, 10);
+                int noteWidth = TapyGui.WIDTH / 20;
+
+                g.fillRoundRect(x - noteWidth/2, y - len, noteWidth, len, 10, 10);
 
                 g.setColor(new Color(41, 128, 185));
                 g.drawString(n.getName(), x - 18, y - len / 2 + 5);
@@ -173,9 +175,8 @@ public class GamePanel extends JXPanel implements KeyListener {
 
     public void startMoving(){
 
-//        int t = (int) (song.getBPM() / 60 * 1.75 / 4);
-
-        int t = (int)(1000 / song.getFramesPerSecond() / 2);
+        int t = (int)(Math.ceil(1000 / song.getFramesPerSecond() / 2));
+        //int t = (int)(song.getFramesPerSecond());
 
         System.out.println("\n---\n" + t + "\n---\n");
 

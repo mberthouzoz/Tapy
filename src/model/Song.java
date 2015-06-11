@@ -32,21 +32,7 @@ public class Song {
     public float getFramesPerSecond() {
         float divisionType = sequence.getDivisionType();
 
-        float framesPerSecond = 24;
-        if(divisionType == Sequence.SMPTE_24) {
-            framesPerSecond = 24;
-        }
-        else if(divisionType == Sequence.SMPTE_25) {
-            framesPerSecond = 25;
-        }
-        else if(divisionType == Sequence.SMPTE_30) {
-            framesPerSecond = 30;
-        }
-        else if(divisionType == Sequence.SMPTE_30DROP) {
-            framesPerSecond = (float) 29.97;
-        }
-
-        return framesPerSecond;
+        return (divisionType == 0.0) ? 24 : divisionType;
     }
 
     public float getTicksPerSecond() {
