@@ -15,7 +15,7 @@ public class ScorePanel extends JPanel{
 	JLabel scoreLabel;
 	JButton okButton;
 	
-	public ScorePanel(String pathCurrentSong, int score, JFrame frame){
+	public ScorePanel(int score, JFrame frame){
 		textLabel = new JLabel("Vous avez obtenu le score de", SwingConstants.CENTER);
 		scoreLabel = new JLabel(String.valueOf(score), SwingConstants.CENTER);
 		

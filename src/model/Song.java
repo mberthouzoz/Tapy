@@ -1,14 +1,22 @@
 package model;
 
 import javax.sound.midi.*;
+
 import java.io.IOException;
 
 public class Song {
 
     private final Sequence sequence;
+    private Sequencer sequencer;
 
     public Song(Sequence sequence) {
         this.sequence = sequence;
+        try {
+			sequencer = MidiSystem.getSequencer();
+		} catch (MidiUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -18,7 +26,6 @@ public class Song {
      * @throws InvalidMidiDataException
      */
     public void play() throws MidiUnavailableException, IOException, InvalidMidiDataException {
-        Sequencer sequencer = MidiSystem.getSequencer();
         sequencer.open();
         sequencer.setSequence(sequence);
         sequencer.start();
@@ -59,6 +66,10 @@ public class Song {
 
         Channel chan = new Channel(tracks, channel);
         return chan;
+    }
+    
+    public boolean isRunning(){
+    	return sequencer.isRunning();
     }
 
 }

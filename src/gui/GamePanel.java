@@ -8,6 +8,7 @@ import model.Song;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private int score = 0;
     private JLabel scoreLabel;
     private JFrame gameFrame;
+    private Timer timer;
 
     public GamePanel(Song s, int chanNb, JFrame gameFrame) {
     	this.gameFrame = gameFrame;
@@ -120,6 +122,19 @@ public class GamePanel extends JPanel implements KeyListener {
             System.out.println("Let the song begin !");
             isPlaying = true;
         }
+        if(isPlaying && !song.isRunning()){
+        	timer.stop();
+        	gameFrame.dispose();
+        	JFrame frame = new JFrame("ScoreBoard");
+    		frame.setLayout(new FlowLayout());
+    		frame.add(new ScorePanel( 5678, frame));
+    		
+    		
+    		frame.setSize(400, 200);
+    		frame.setResizable(false);
+    		frame.setVisible(true);
+    		frame.setLocationRelativeTo(null);
+        }
     }
 
     @Override
@@ -194,13 +209,14 @@ public class GamePanel extends JPanel implements KeyListener {
         System.out.println("global i: " + globalI);
 
 
-        Timer timer = new Timer(10, e -> {
+        timer = new Timer(10, e -> {
 //			posY += globalI;
             posY += globalI;
 
             if (isRunning) {
                 repaint();
             }
+            
         });
 
         timer.start();
