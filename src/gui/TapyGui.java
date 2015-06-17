@@ -5,6 +5,9 @@ import model.Song;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Game window
+ */
 public class TapyGui {
 
     public static int WIDTH = 600;
@@ -15,7 +18,7 @@ public class TapyGui {
         //frame.setSize(WIDTH, HEIGHT);
         Toolkit tk = Toolkit.getDefaultToolkit();
         WIDTH = ((int) tk.getScreenSize().getWidth());
-        HEIGHT = ((int) tk.getScreenSize().getHeight());
+        HEIGHT = ((int) tk.getScreenSize().getHeight()) - 60;
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GamePanel gamePane = new GamePanel(s, chanNb);

@@ -11,6 +11,12 @@ public class Song {
         this.sequence = sequence;
     }
 
+    /**
+     * Play the song in background
+     * @throws MidiUnavailableException
+     * @throws IOException
+     * @throws InvalidMidiDataException
+     */
     public void play() throws MidiUnavailableException, IOException, InvalidMidiDataException {
         Sequencer sequencer = MidiSystem.getSequencer();
         sequencer.open();
@@ -18,6 +24,10 @@ public class Song {
         sequencer.start();
     }
 
+    /**
+     * Get the BPM of the song
+     * @return double The BPM
+     */
     public double getBPM() {
         // https://github.com/estine/tmig/blob/master/Code/TMIG.java
         long MicroLen = sequence.getMicrosecondLength();
@@ -39,7 +49,11 @@ public class Song {
         return sequence.getResolution() * getFramesPerSecond();
     }
 
-
+    /**
+     * Get a specific channel
+     * @param channel
+     * @return
+     */
     public Channel getChannel(int channel) {
         Track[] tracks = sequence.getTracks();
 

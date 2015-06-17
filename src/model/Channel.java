@@ -17,10 +17,12 @@ public class Channel {
     public static final int NOTE_OFF = 0x80;
     private static final int NB_LINES = 4;
     // One color by line for notes
-    private static final Color[] COLORS = {new Color(255, 0, 0),
-            new Color(0, 255, 0),
-            new Color(0, 0, 255),
-            new Color(255, 255, 0)};
+    private static final Color[] COLORS = {
+            new Color(231, 76, 60),
+            new Color(46, 204, 113),
+            new Color(52, 152, 219),
+            new Color(241, 196, 15)
+    };
 
     public Channel(Track[] tracks, int channel) {
         LinkedList<Note> notes = new LinkedList<>();

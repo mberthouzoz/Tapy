@@ -11,6 +11,13 @@ public class SongsManager {
     private Sequence sequence;
     private File songFile;
 
+    /**
+     * Load a midi song
+     * @param fileName
+     * @return
+     * @throws InvalidMidiDataException
+     * @throws IOException
+     */
     public Song load(String fileName) throws InvalidMidiDataException, IOException {
         songFile = new File(fileName);
 
