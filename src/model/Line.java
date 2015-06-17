@@ -3,6 +3,9 @@ package model;
 import java.awt.*;
 import java.util.LinkedList;
 
+/**
+ * Representation of a Line
+ */
 public class Line implements Cloneable {
 
     private int number;

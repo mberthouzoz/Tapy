@@ -72,12 +72,12 @@ public class GamePanel extends JPanel implements KeyListener {
         g.fillRect(0, zoneY, TapyGui.WIDTH, 20);
 
         // Line
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(127, 140, 141));
         int temp = TapyGui.WIDTH / 5;
-        g.drawLine(temp, 0, temp, TapyGui.HEIGHT);
-        g.drawLine(temp * 2, 0, temp * 2, TapyGui.HEIGHT);
-        g.drawLine(temp * 3, 0, temp * 3, TapyGui.HEIGHT);
-        g.drawLine(temp * 4, 0, temp * 4, TapyGui.HEIGHT);
+        g.drawRect(temp, -1, 1, TapyGui.HEIGHT);
+        g.drawRect(temp * 2, -1, 1, TapyGui.HEIGHT);
+        g.drawRect(temp * 3, -1, 1, TapyGui.HEIGHT);
+		g.drawRect(temp * 4, -1, 1, TapyGui.HEIGHT);
 
         int mult = 10;
         int currentLine = 0;
@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements KeyListener {
         for (Line l : chan.getLines()) {
             int x = temp * (l.getNumber() + 1);
 
-            for (Note n : l.getNotes()) {
+            l.getNotes().forEach(n -> {
                 int y = (int) (posY - n.getTick() / mult);
                 int len = (int) (n.getLength()) / mult;
 
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
                 // Draw note
                 g.fillRoundRect(x - NOTE_WIDTH / 2, y - len, NOTE_WIDTH, len, 10, 10);
-            }
+            });
 
             // Displays the key to press
             g.setColor(COLOR_KEY_TO_PRESS);

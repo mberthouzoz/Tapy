@@ -10,6 +10,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Choice Panel
+ * Panel to chose a midi file and start the game
+ */
 public class ChoicePanel extends JPanel {
     JButton chooseFileButton, startButton;
     JFileChooser fileChooser;
@@ -18,22 +22,24 @@ public class ChoicePanel extends JPanel {
     JPanel researchPanel;
 
     public ChoicePanel() {
+        fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("MIDI File", "mid"));
+
         chooseFileButton = new JButton("Parcourir");
-
         chooseFileButton.addActionListener(arg0 -> {
-
+            // Open choice panel in the current java folder
             File workingDirectory = new File(System.getProperty("user.dir") + "/data");
             fileChooser.setCurrentDirectory(workingDirectory);
             int dialog = fileChooser.showOpenDialog(null);
 
+            // If a we click on "open" and the file exists
             if (dialog == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
                 path.setText(fileChooser.getSelectedFile().getPath());
             }
         });
 
+        // When we start a game
         startButton = new JButton("Lancer Partie");
-        fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("MIDI File", "mid"));
         startButton.addActionListener(arg0 -> {
             if (!path.getText().isEmpty()) {
                 String temp = path.getText();
@@ -57,21 +63,23 @@ public class ChoicePanel extends JPanel {
         title = new JLabel("TAPY");
         title.setFont(new Font("Sans", Font.BOLD, 48));
         title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setForeground(new Color(230, 230, 230));
 
         text = new JLabel("Sélectionner un fichier midi");
         path = new JTextField();
         path.setSize(new Dimension(100, 100));
+
         researchPanel = new JPanel();
         researchPanel.setLayout(new GridLayout(1, 2));
-
         researchPanel.add(path);
         researchPanel.add(chooseFileButton);
 
-        this.setLayout(new GridLayout(4, 1));
-        this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        this.add(title);
-        this.add(text);
-        this.add(researchPanel);
-        this.add(startButton);
+        setLayout(new GridLayout(4, 1));
+        setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        setBackground(new Color(100, 100, 100));
+        add(title);
+        add(text);
+        add(researchPanel);
+        add(startButton);
     }
 }
