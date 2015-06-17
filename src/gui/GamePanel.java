@@ -43,7 +43,6 @@ public class GamePanel extends JPanel implements KeyListener {
 		framePerSec = (int) song.getFramesPerSecond();
 	}
 
-
 	@Override
 	public void paintComponent(Graphics g) {
 
@@ -70,9 +69,10 @@ public class GamePanel extends JPanel implements KeyListener {
 		int mult = 10;
 
 		for (Line l : chan.getLines()) {
+
 			int x = temp * (l.getNumber() + 1);
 
-            l.getNotes().forEach(n -> {
+			for(Note n : l.getNotes()) {
 				int y = (int) (posY - n.getTick() / mult);
 				int len = (int) (n.getLength()) / mult;
 
@@ -86,12 +86,12 @@ public class GamePanel extends JPanel implements KeyListener {
 
 				int noteWidth = TapyGui.WIDTH / 20;
 
-				g.fillRoundRect(x - noteWidth / 2, y - len, noteWidth, len, 10, 10);
+				g.fillRoundRect(x - noteWidth/2, y - len, noteWidth, len, 10, 10);
 
 				g.setColor(new Color(41, 128, 185));
-				g.drawString(n.getName(), x - 18, y - len / 2 + 5);
-				g.drawString(String.valueOf(n.getTick()), x + 18, y - len / 2 + 5);
-			});
+				//g.drawString(n.getName(), x - 18, y - len / 2 + 5);
+				//g.drawString(String.valueOf(n.getTick()), x + 18, y - len / 2 + 5);
+			}
 
 			// Mesures
 			int nMes = 0;
@@ -118,11 +118,6 @@ public class GamePanel extends JPanel implements KeyListener {
 			System.out.println("Let the song begin !");
 			isPlaying = true;
 		}
-
-
-		//        if(isRunning) {
-		//            repaint();
-		//        }
 	}
 
 	@Override
@@ -147,38 +142,6 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		case 'K':
 			checkLine(3);
-			break;
-
-		case 89 :
-			globalI = - 1;
-			break;
-		case 88 :
-			globalI = 1;
-			break;
-		case 67 :
-			globalI = - 3;
-			break;
-		case 86 :
-			globalI = 3;
-			break;
-			// haut
-		case 38 :
-			globalI = - 1;
-			break;
-			// bas
-		case 40 :
-			globalI = 1;
-			break;
-			// q
-		case 81 :
-			globalI = - 10;
-			break;
-			// a
-		case 65 :
-			globalI = 10;
-			break;
-		default :
-//			globalI = 0;
 			break;
 		}
 	}
