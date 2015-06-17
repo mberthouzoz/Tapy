@@ -21,12 +21,15 @@ public class GamePanel extends JPanel implements KeyListener {
 	private final Channel chan;
 	private final int zoneY;
 	private final int framePerSec;
-	private final Color COLOR_IN_ZONE      = new Color(190, 40, 40);
-	private final Color COLOR_KEY_TO_PRESS = new Color(0, 0, 0);
+    private final int NOTE_WIDTH = TapyGui.WIDTH / 20;
+    // Define Color
+    private final Color COLOR_IN_ZONE      = new Color(190, 40, 40);
+    private final Color COLOR_KEY_TO_PRESS = new Color(0, 0, 0);
     private final Color COLOR_ZONE_ACTIVE  = new Color(46, 204, 113, 80);
     private final Color COLOR_BACKGROUND   = new Color(255, 255, 255);
-	private final char[] KEYS_TO_PRESS = {'D', 'F', 'J', 'K'};
-    private final int NOTE_WIDTH = TapyGui.WIDTH / 20;
+    // Define Keys
+    private final char[] KEYS_TO_PRESS = {'D', 'F', 'J', 'K'};
+
 	private double posY = TapyGui.HEIGHT / 2;
 	private double globalI = 2;
 	private boolean isPlaying = false;
@@ -126,7 +129,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
-
+        // Check if key in tab is pressed and check
         for (int i = 0; i < chan.getLines().length; i++) {
             if (key == KEYS_TO_PRESS[i]) {
                 checkLine(i);
@@ -200,7 +203,8 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		timer.start();
 	}
-	
+
+    // check if the note in active zone
 	private boolean oneNoteInSection(int line) {
 		for(Note n : chan.getLine(line).getNotes()){
 			if(n.isInSection()){
@@ -210,7 +214,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		return false;
 	}
-	
+
 	private void checkLine(int line) {
 		if(oneNoteInSection(line)) {
 			score += 100;

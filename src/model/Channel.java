@@ -16,6 +16,7 @@ public class Channel {
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     private static final int NB_LINES = 4;
+    // One color by line for notes
     private static final Color[] COLORS = {new Color(255, 0, 0),
                                             new Color(0, 255, 0),
                                             new Color(0, 0, 255),
@@ -75,6 +76,7 @@ public class Channel {
 
         int interval = keyMax - keyMin;
         for (int i = 0; i < NB_LINES; i++) {
+            // clone a line and set some information
             Line l = line.clone();
             l.setNumber(i);
             l.setColor(COLORS[i]);
