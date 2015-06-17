@@ -82,6 +82,7 @@ public class Channel {
             Line l = line.clone();
             l.setNumber(i);
             l.setColor(COLORS[i]);
+            l.clearNotes();
             lines[i] = l;
         }
 

@@ -50,6 +50,10 @@ public class Line implements Cloneable {
         return notes;
     }
 
+    public void clearNotes() {
+        notes.clear();
+    }
+
     public int getNumber() {
         return number;
     }
@@ -65,6 +69,9 @@ public class Line implements Cloneable {
         }
 
         clone.notes = new LinkedList<Note>();
+        for(Note n: notes) {
+            clone.notes.add(n);
+        }
 
         return clone;
     }
