@@ -14,18 +14,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
-//import org.jdesktop.swingx.JXPanel;
-
+/**
+ * Game panel
+ */
 public class GamePanel extends JPanel implements KeyListener {
 
     private final Song song;
     private final Channel chan;
     private final int zoneY;
-    private final int framePerSec;
     private final int NOTE_WIDTH = TapyGui.WIDTH / 20;
     // Define Color
     private final Color COLOR_IN_ZONE = new Color(190, 40, 40);
-    private final Color COLOR_KEY_TO_PRESS = new Color(0, 0, 0);
+    private final Color COLOR_KEY_TO_PRESS = new Color(0, 0, 0, 160);
     private final Color COLOR_ZONE_ACTIVE = new Color(46, 204, 113, 80);
     private final Color COLOR_BACKGROUND = new Color(255, 255, 255);
     // Define Keys
@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private Timer timer;
 
     public GamePanel(Song s, int chanNb, JFrame gameFrame) {
-    	this.gameFrame = gameFrame;
+        this.gameFrame = gameFrame;
         song = s;
         chan = s.getChannel(chanNb);
         // Full screen
@@ -52,13 +52,11 @@ public class GamePanel extends JPanel implements KeyListener {
         addKeyListener(this);
 
         scoreLabel = new JLabel(String.valueOf(score));
-        scoreLabel.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-        this.add(scoreLabel);
+        scoreLabel.setFont(new Font("Sans", Font.PLAIN, 50));
+        add(scoreLabel);
 
         // Zone active
         zoneY = TapyGui.HEIGHT - (TapyGui.HEIGHT / 6);
-
-        framePerSec = (int) song.getFramesPerSecond();
     }
 
     @Override
@@ -73,7 +71,7 @@ public class GamePanel extends JPanel implements KeyListener {
         // Active zone
         g.setColor(COLOR_ZONE_ACTIVE);
         g.fillRect(0, zoneY, TapyGui.WIDTH, 20);
-        
+
 
         // Line
         g.setColor(new Color(127, 140, 141));
@@ -81,7 +79,7 @@ public class GamePanel extends JPanel implements KeyListener {
         g.drawRect(temp, -1, 1, TapyGui.HEIGHT);
         g.drawRect(temp * 2, -1, 1, TapyGui.HEIGHT);
         g.drawRect(temp * 3, -1, 1, TapyGui.HEIGHT);
-		g.drawRect(temp * 4, -1, 1, TapyGui.HEIGHT);
+        g.drawRect(temp * 4, -1, 1, TapyGui.HEIGHT);
 
         int mult = 10;
         int currentLine = 0;
@@ -107,39 +105,39 @@ public class GamePanel extends JPanel implements KeyListener {
                 g.fillRoundRect(x - NOTE_WIDTH / 2, y - len, NOTE_WIDTH, len, 10, 10);
                 g.setColor(Color.BLACK);
                 g.drawRoundRect(x - NOTE_WIDTH / 2, y - len, NOTE_WIDTH, len, 10, 10);
-        
+
             });
 
             // Displays the key to press
             g.setColor(COLOR_KEY_TO_PRESS);
-            g.setFont(new Font("TimesRoman", Font.PLAIN, 100));
-            g.drawString(String.valueOf(KEYS_TO_PRESS[currentLine]), x + 20, zoneY + 130);
+            g.setFont(new Font("Sans", Font.PLAIN, 70));
+            g.drawString(String.valueOf(KEYS_TO_PRESS[currentLine]), x + 20, zoneY + 100);
 
             currentLine++;
         }
 
         if (!isPlaying && posY > zoneY) {
             try {
-                song.play();
+                song.play(); // play the song
             } catch (MidiUnavailableException | InvalidMidiDataException | IOException e) {
                 e.printStackTrace();
             }
             System.out.println("Let the song begin !");
             isPlaying = true;
         }
-        if(isPlaying && !song.isRunning() && !scorePrinted){
-        	timer.stop();
-        	gameFrame.dispose();
-        	scorePrinted = true;
-        	JFrame frame = new JFrame("ScoreBoard");
-    		frame.setLayout(new FlowLayout());
-    		frame.add(new ScorePanel( score, frame));
-    		
-    		
-    		frame.setSize(400, 200);
-    		frame.setResizable(false);
-    		frame.setVisible(true);
-    		frame.setLocationRelativeTo(null);
+
+        if (isPlaying && !song.isRunning() && !scorePrinted) {
+            timer.stop();
+            gameFrame.dispose();
+            scorePrinted = true;
+            JFrame frame = new JFrame("ScoreBoard");
+            frame.setLayout(new FlowLayout());
+            frame.add(new ScorePanel(score, frame));
+
+            frame.setSize(400, 200);
+            frame.setResizable(false);
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
         }
     }
 
@@ -150,7 +148,6 @@ public class GamePanel extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         int key = e.getKeyCode();
         // Check if key in tab is pressed and check
         for (int i = 0; i < chan.getLines().length; i++) {
@@ -159,11 +156,11 @@ public class GamePanel extends JPanel implements KeyListener {
                 break;
             }
         }
-        if(key == 'A'){
-        	globalI =0;
+        if (key == 'A') {
+            globalI = 0;
         }
-        if(key == 'Q'){
-        	globalI = 1;
+        if (key == 'Q') {
+            globalI = 1;
         }
     }
 
@@ -172,7 +169,6 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     public void startMovingOLD() {
-
         float err = (float) ((1000 / song.getFramesPerSecond() / 2) - Math.ceil(1000 / song.getFramesPerSecond() / 2));
 
         int t = (int) (Math.ceil(1000 / song.getFramesPerSecond() / 2));
@@ -192,6 +188,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         timer.start();
     }
+
 
     public void startMoving() {
 
@@ -216,7 +213,7 @@ public class GamePanel extends JPanel implements KeyListener {
         double rps = 1000 / 10; // rafraich. par secs
 
 //        globalI = rps / 10;
-        globalI = rps/song.getFramesPerSecond();
+        globalI = rps / song.getFramesPerSecond();
         System.out.println(song.getFramesPerSecond());
         System.out.println("global i: " + globalI);
 
@@ -228,7 +225,7 @@ public class GamePanel extends JPanel implements KeyListener {
             if (isRunning) {
                 repaint();
             }
-            
+
         });
 
         timer.start();
