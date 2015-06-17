@@ -12,6 +12,7 @@ public class Note implements Cloneable{
     private static final int NOTE_OFF = 0x80;
     private long tick;
     private long end;
+    private boolean inSection = false;
 
     public Note() {
 
@@ -93,4 +94,13 @@ public class Note implements Cloneable{
 
         return clone;
     }
+
+	public boolean isInSection() {
+		return inSection;
+	}
+
+	public void setInSection(boolean inSection) {
+		this.inSection = inSection;
+	}
+    
 }
