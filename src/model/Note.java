@@ -6,6 +6,7 @@ public class Note implements Cloneable {
 
     private int velocity;
     private int key;
+    private final long MAX_LENGTH = 190l;
     private boolean noteBegin;
     private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
     private static final int NOTE_ON = 0x90;
@@ -72,7 +73,8 @@ public class Note implements Cloneable {
     }
 
     public long getLength() {
-        return end - tick;
+        long length = end - tick;
+        return length < MAX_LENGTH ? length : MAX_LENGTH;
     }
 
     @Override

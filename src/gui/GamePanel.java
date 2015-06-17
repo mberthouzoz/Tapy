@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements KeyListener {
         // Active zone
         g.setColor(COLOR_ZONE_ACTIVE);
         g.fillRect(0, zoneY, TapyGui.WIDTH, 20);
+        
 
         // Line
         g.setColor(new Color(127, 140, 141));
@@ -94,7 +95,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 int len = (int) (n.getLength()) / mult;
 
                 // When note is in active zone
-                if (y > zoneY && y < zoneY + 20) {
+                if (y > zoneY && y + len < zoneY + 40) {
                     g.setColor(COLOR_IN_ZONE);
                     n.setInSection(true);
                 } else {
@@ -104,6 +105,9 @@ public class GamePanel extends JPanel implements KeyListener {
 
                 // Draw note
                 g.fillRoundRect(x - NOTE_WIDTH / 2, y - len, NOTE_WIDTH, len, 10, 10);
+                g.setColor(Color.BLACK);
+                g.drawRoundRect(x - NOTE_WIDTH / 2, y - len, NOTE_WIDTH, len, 10, 10);
+        
             });
 
             // Displays the key to press
@@ -154,6 +158,12 @@ public class GamePanel extends JPanel implements KeyListener {
                 checkLine(i);
                 break;
             }
+        }
+        if(key == 'A'){
+        	globalI =0;
+        }
+        if(key == 'Q'){
+        	globalI = 1;
         }
     }
 
