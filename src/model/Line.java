@@ -64,13 +64,13 @@ public class Line implements Cloneable {
         try {
             clone = (Line) super.clone();
 
+            clone.notes = new LinkedList<Note>();
+            for (Note n : notes) {
+                clone.notes.add(n);
+            }
+
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
-        }
-
-        clone.notes = new LinkedList<Note>();
-        for(Note n: notes) {
-            clone.notes.add(n);
         }
 
         return clone;
