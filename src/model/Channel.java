@@ -1,6 +1,10 @@
 package model;
 
-import javax.sound.midi.*;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiMessage;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Track;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -12,6 +16,10 @@ public class Channel {
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     private static final int NB_LINES = 4;
+    private static final Color[] COLORS = {new Color(255, 0, 0),
+                                            new Color(0, 255, 0),
+                                            new Color(0, 0, 255),
+                                            new Color(255, 255, 0)};
 
     public Channel(Track[] tracks, int channel) {
         LinkedList<Note> notes = new LinkedList<>();
@@ -69,6 +77,7 @@ public class Channel {
         for (int i = 0; i < NB_LINES; i++) {
             Line l = line.clone();
             l.setNumber(i);
+            l.setColor(COLORS[i]);
             lines[i] = l;
         }
 
