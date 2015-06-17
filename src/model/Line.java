@@ -51,7 +51,7 @@ public class Line implements Cloneable {
         return number;
     }
 
-    public Line clone(  ) {
+    public Line clone() {
         Line clone = null;
 
         try {

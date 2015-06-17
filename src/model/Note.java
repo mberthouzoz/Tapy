@@ -2,7 +2,7 @@ package model;
 
 import javax.sound.midi.ShortMessage;
 
-public class Note implements Cloneable{
+public class Note implements Cloneable {
 
     private int velocity;
     private int key;
@@ -21,7 +21,7 @@ public class Note implements Cloneable{
     public Note(ShortMessage sm) {
         key = sm.getData1();
         velocity = sm.getData2();
-        if(sm.getCommand() == NOTE_ON) {
+        if (sm.getCommand() == NOTE_ON) {
             noteBegin = true;
         } else if (sm.getCommand() == NOTE_OFF) {
             noteBegin = false;
@@ -33,7 +33,7 @@ public class Note implements Cloneable{
     }
 
     public int getOctave() {
-        return (key / 12)-1;
+        return (key / 12) - 1;
     }
 
     public String getName() {
@@ -44,7 +44,7 @@ public class Note implements Cloneable{
     public void setShortMessage(ShortMessage sm) {
         key = sm.getData1();
         velocity = sm.getData2();
-        if(sm.getCommand() == NOTE_ON) {
+        if (sm.getCommand() == NOTE_ON) {
             noteBegin = true;
         } else if (sm.getCommand() == NOTE_OFF) {
             noteBegin = false;
@@ -77,7 +77,7 @@ public class Note implements Cloneable{
 
     @Override
     public String toString() {
-        String s = "@" + tick + " [" + getLength()  + "]" + getName() + getOctave() + " key=" + key + " velocity: " + velocity;
+        String s = "@" + tick + " [" + getLength() + "]" + getName() + getOctave() + " key=" + key + " velocity: " + velocity;
 
         return s;
     }
@@ -95,12 +95,12 @@ public class Note implements Cloneable{
         return clone;
     }
 
-	public boolean isInSection() {
-		return inSection;
-	}
+    public boolean isInSection() {
+        return inSection;
+    }
 
-	public void setInSection(boolean inSection) {
-		this.inSection = inSection;
-	}
-    
+    public void setInSection(boolean inSection) {
+        this.inSection = inSection;
+    }
+
 }

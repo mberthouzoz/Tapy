@@ -18,9 +18,9 @@ public class Channel {
     private static final int NB_LINES = 4;
     // One color by line for notes
     private static final Color[] COLORS = {new Color(255, 0, 0),
-                                            new Color(0, 255, 0),
-                                            new Color(0, 0, 255),
-                                            new Color(255, 255, 0)};
+            new Color(0, 255, 0),
+            new Color(0, 0, 255),
+            new Color(255, 255, 0)};
 
     public Channel(Track[] tracks, int channel) {
         LinkedList<Note> notes = new LinkedList<>();
@@ -46,7 +46,7 @@ public class Channel {
                             Note n = (Note) note.clone();
                             n.setShortMessage(sm);
                             n.setTick(event.getTick());
-                            
+
                             System.out.println(event.getTick());
 
                             keySequ.put(n.getKey(), n);
