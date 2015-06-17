@@ -18,7 +18,7 @@ public class TapyGui {
         HEIGHT = ((int) tk.getScreenSize().getHeight());
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GamePanel gamePane = new GamePanel(s, chanNb);
+        GamePanel gamePane = new GamePanel(s, chanNb, frame);
         frame.add(gamePane);
         gamePane.repaint();
         gamePane.startMoving();
@@ -28,8 +28,9 @@ public class TapyGui {
         // Display the window
         frame.setResizable(false);
         frame.pack();
-        frame.setLocationRelativeTo(null);
+        
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 
     public static void show(Song s, int chan) {

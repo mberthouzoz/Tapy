@@ -36,8 +36,10 @@ public class GamePanel extends JPanel implements KeyListener {
     private boolean isRunning = true;
     private int score = 0;
     private JLabel scoreLabel;
+    private JFrame gameFrame;
 
-    public GamePanel(Song s, int chanNb) {
+    public GamePanel(Song s, int chanNb, JFrame gameFrame) {
+    	this.gameFrame = gameFrame;
         song = s;
         chan = s.getChannel(chanNb);
         // Full screen
