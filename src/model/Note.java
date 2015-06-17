@@ -2,6 +2,9 @@ package model;
 
 import javax.sound.midi.ShortMessage;
 
+/**
+ * Represente a note
+ */
 public class Note implements Cloneable {
 
     private int velocity;
@@ -14,20 +17,6 @@ public class Note implements Cloneable {
     private long tick;
     private long end;
     private boolean inSection = false;
-
-    public Note() {
-
-    }
-
-    public Note(ShortMessage sm) {
-        key = sm.getData1();
-        velocity = sm.getData2();
-        if (sm.getCommand() == NOTE_ON) {
-            noteBegin = true;
-        } else if (sm.getCommand() == NOTE_OFF) {
-            noteBegin = false;
-        }
-    }
 
     public boolean isNoteBegin() {
         return noteBegin;
@@ -84,6 +73,7 @@ public class Note implements Cloneable {
         return s;
     }
 
+    @Override
     public Object clone() {
         Object clone = null;
 
