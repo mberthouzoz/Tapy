@@ -4,6 +4,9 @@ import javax.sound.midi.*;
 
 import java.io.IOException;
 
+/**
+ * Represent a song
+ */
 public class Song {
 
     private final Sequence sequence;
@@ -14,7 +17,6 @@ public class Song {
         try {
 			sequencer = MidiSystem.getSequencer();
 		} catch (MidiUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

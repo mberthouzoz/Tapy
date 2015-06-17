@@ -32,7 +32,7 @@ public class ChoicePanel extends JPanel {
             fileChooser.setCurrentDirectory(workingDirectory);
             int dialog = fileChooser.showOpenDialog(null);
 
-            // If a we click on "open" and the file exists
+            // If we click on "open" and the file exists
             if (dialog == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile().exists()) {
                 path.setText(fileChooser.getSelectedFile().getPath());
             }

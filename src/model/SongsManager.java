@@ -6,6 +6,10 @@ import javax.sound.midi.Sequence;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Songs manager
+ * Useful to load songs
+ */
 public class SongsManager {
 
     private Sequence sequence;
@@ -14,7 +18,7 @@ public class SongsManager {
     /**
      * Load a midi song
      * @param fileName
-     * @return
+     * @return Song The loaded song
      * @throws InvalidMidiDataException
      * @throws IOException
      */

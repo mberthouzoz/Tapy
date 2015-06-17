@@ -8,6 +8,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * Channel
+ */
 public class Channel {
     // lines
     private Line[] lines = new Line[NB_LINES];
@@ -16,6 +19,7 @@ public class Channel {
     public static final int NOTE_ON = 0x90;
     public static final int NOTE_OFF = 0x80;
     private static final int NB_LINES = 4;
+
     // One color by line for notes
     private static final Color[] COLORS = {
             new Color(231, 76, 60),
@@ -27,6 +31,7 @@ public class Channel {
     public Channel(Track[] tracks, int channel) {
         LinkedList<Note> notes = new LinkedList<>();
         HashMap<Integer, Note> keySequ = new HashMap<Integer, Note>();
+
         // Prototype
         Note note = new Note();
         Line line = new Line();
@@ -45,6 +50,7 @@ public class Channel {
                     if (sm.getChannel() == channel) {
 
                         if (sm.getCommand() == NOTE_ON) {
+                            // The note begin
                             Note n = (Note) note.clone();
                             n.setShortMessage(sm);
                             n.setTick(event.getTick());
@@ -53,6 +59,7 @@ public class Channel {
 
                             keySequ.put(n.getKey(), n);
                         } else if (sm.getCommand() == NOTE_OFF) {
+                            // The note ended
                             int k = sm.getData1();
                             Note n = keySequ.get(k);
                             if (n != null) {
@@ -70,8 +77,6 @@ public class Channel {
                         }
                     }
 
-                } else {
-                    // Other message
                 }
             }
         }
