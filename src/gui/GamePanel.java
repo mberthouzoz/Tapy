@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private double globalI = 2;
     private boolean isPlaying = false;
     private boolean isRunning = true;
+    private boolean scorePrinted = false;
     private int score = 0;
     private JLabel scoreLabel;
     private JFrame gameFrame;
@@ -122,12 +123,13 @@ public class GamePanel extends JPanel implements KeyListener {
             System.out.println("Let the song begin !");
             isPlaying = true;
         }
-        if(isPlaying && !song.isRunning()){
+        if(isPlaying && !song.isRunning() && !scorePrinted){
         	timer.stop();
         	gameFrame.dispose();
+        	scorePrinted = true;
         	JFrame frame = new JFrame("ScoreBoard");
     		frame.setLayout(new FlowLayout());
-    		frame.add(new ScorePanel( 5678, frame));
+    		frame.add(new ScorePanel( score, frame));
     		
     		
     		frame.setSize(400, 200);
@@ -170,7 +172,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         System.out.println("\n---\n" + t + "\n---\n");
 
-        Timer timer = new Timer(t, e -> {
+        timer = new Timer(t, e -> {
             posY += globalI;
 
             if (isRunning) {
@@ -204,8 +206,8 @@ public class GamePanel extends JPanel implements KeyListener {
         double rps = 1000 / 10; // rafraich. par secs
 
 //        globalI = rps / 10;
-        globalI = rps / song.getFramesPerSecond();
-
+        globalI = rps/song.getFramesPerSecond();
+        System.out.println(song.getFramesPerSecond());
         System.out.println("global i: " + globalI);
 
 
