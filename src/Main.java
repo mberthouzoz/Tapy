@@ -1,6 +1,6 @@
 /**
  * MCR - Tapy
- * @author: Fabien Salathe, Marc Pellet, Michaël Berthouzoz, David Villa
+ * @author: Fabien Salathe, Marc Pellet, Michael Berthouzoz, David Villa
  * @brief: Game similar to Guitar Hero basic using the Prototype design pattern.
  * @date: 2015-06-17
  */
@@ -12,6 +12,19 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args) {
+
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
 
         JFrame frame = new JFrame();
         frame.add(new ChoicePanel());
