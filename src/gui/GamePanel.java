@@ -96,8 +96,8 @@ public class GamePanel extends JPanel implements KeyListener {
 				g.fillRoundRect(x - noteWidth/2, y - len, noteWidth, len, 10, 10);
 
 				g.setColor(new Color(41, 128, 185));
-				g.drawString(n.getName(), x - 18, y - len / 2 + 5);
-				g.drawString(String.valueOf(n.getTick()), x + 18, y - len / 2 + 5);
+				//g.drawString(n.getName(), x - 18, y - len / 2 + 5);
+				//g.drawString(String.valueOf(n.getTick()), x + 18, y - len / 2 + 5);
 			}
 
 			// Mesures
@@ -154,37 +154,6 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		case 'K':
 			checkLine(3);
-			break;
-		case 89 :
-			globalI = - 1;
-			break;
-		case 88 :
-			globalI = 1;
-			break;
-		case 67 :
-			globalI = - 3;
-			break;
-		case 86 :
-			globalI = 3;
-			break;
-			// haut
-		case 38 :
-			globalI = - 1;
-			break;
-			// bas
-		case 40 :
-			globalI = 1;
-			break;
-			// q
-		case 81 :
-			globalI = - 10;
-			break;
-			// a
-		case 65 :
-			globalI = 10;
-			break;
-		default :
-			globalI = 0;
 			break;
 		}
 	}
