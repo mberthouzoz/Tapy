@@ -1,11 +1,13 @@
 package model;
 
+import java.awt.*;
 import java.util.LinkedList;
 
 public class Line implements Cloneable {
 
     private int number;
     private LinkedList<Note> notes;
+    private Color color;
 
     public Line() {
         notes = new LinkedList<Note>();
@@ -15,6 +17,14 @@ public class Line implements Cloneable {
         this.number = number;
 
         notes = new LinkedList<Note>();
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color c) {
+        color = c;
     }
 
     public void setNumber(int number) {
