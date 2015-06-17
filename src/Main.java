@@ -28,7 +28,7 @@ public class Main {
 
         JFrame frame = new JFrame();
         frame.add(new ChoicePanel());
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
