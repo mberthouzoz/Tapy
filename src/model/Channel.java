@@ -37,6 +37,8 @@ public class Channel {
                             Note n = (Note) note.clone();
                             n.setShortMessage(sm);
                             n.setTick(event.getTick());
+                            
+                            System.out.println(event.getTick());
 
                             keySequ.put(n.getKey(), n);
                         } else if (sm.getCommand() == NOTE_OFF) {
@@ -76,7 +78,6 @@ public class Channel {
 
             lines[index].addNote(n);
         }
-
         firstTick = notes.getFirst().getTick();
         lastTick = notes.getLast().getTick();
     }
