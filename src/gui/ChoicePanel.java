@@ -63,23 +63,28 @@ public class ChoicePanel extends JPanel {
         title = new JLabel("TAPY");
         title.setFont(new Font("Sans", Font.BOLD, 48));
         title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setForeground(new Color(230, 230, 230));
+        title.setForeground(new Color(243, 156, 18));
 
         text = new JLabel("Sélectionner un fichier midi");
+        text.setForeground(new Color(236, 240, 241));
+
         path = new JTextField();
         path.setSize(new Dimension(100, 100));
 
         researchPanel = new JPanel();
+        researchPanel.setBackground(new Color(127, 140, 141));
         researchPanel.setLayout(new GridLayout(1, 2));
         researchPanel.add(path);
         researchPanel.add(chooseFileButton);
 
         setLayout(new GridLayout(4, 1));
-        setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        setBackground(new Color(100, 100, 100));
+        setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+//        setBorder(BorderFactory.createLineBorder(new Color(100,100,100), 20));
+        setBackground(new Color(127, 140, 141));
         add(title);
         add(text);
         add(researchPanel);
         add(startButton);
+        setPreferredSize(new Dimension(350, 280));
     }
 }
