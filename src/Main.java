@@ -1,5 +1,9 @@
-
-// "Velocity" describe the volume (gain) of a MIDI note (higher velocity = louder).
+/**
+ * MCR - Tapy
+ * @author: Fabien Salathe, Marc Pellet, Michaël Berthouzoz, David Villa
+ * @brief: Game similar to Guitar Hero basic using the Prototype design pattern.
+ * @date: 2015-06-17
+ */
 
 import gui.ChoicePanel;
 import javax.swing.*;
