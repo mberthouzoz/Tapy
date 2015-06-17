@@ -46,7 +46,6 @@ public class ChoicePanel extends JPanel {
                         Song s = sm.load(temp);
                         TapyGui.show(s, 0);
                     } catch (InvalidMidiDataException | IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }

@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	private final Color COLOR_KEY_TO_PRESS = new Color(0, 0, 0);
 	private final String[] KEYS_TO_PRESS = {"D", "F", "J", "K"};
 	private double posY = TapyGui.HEIGHT / 2;
-	private int globalI = 2;
+	private double globalI = 2;
 	private boolean isPlaying = false;
 	private boolean isRunning = true;
 	private int score = 0;
@@ -45,14 +45,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		zoneY = TapyGui.HEIGHT - (TapyGui.HEIGHT / 6);
 
 		framePerSec = (int) song.getFramesPerSecond();
-
-		System.out.println("---");
-		System.out.println(">>Last " + chan.getLastTick());
-		System.out.println(">>>BPM " + song.getBPM());
-		System.out.println(">>>TPS " + song.getTicksPerSecond());
-		System.out.println(">>>FPS " + song.getFramesPerSecond());
 	}
-
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -131,11 +124,6 @@ public class GamePanel extends JPanel implements KeyListener {
 			System.out.println("Let the song begin !");
 			isPlaying = true;
 		}
-
-
-		//        if(isRunning) {
-		//            repaint();
-		//        }
 	}
 
 	@Override
@@ -168,14 +156,58 @@ public class GamePanel extends JPanel implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 	}
 
-	public void startMoving(){
+    public void startMovingOLD() {
+
+        float err = (float) ((1000 / song.getFramesPerSecond() / 2) - Math.ceil(1000 / song.getFramesPerSecond() / 2));
+
+        int t = (int)(Math.ceil(1000 / song.getFramesPerSecond() / 2));
+        //int t = (int)(song.getFramesPerSecond());
+
+        System.out.println("t: " + t + " a:" + (1000 / song.getFramesPerSecond() / 2) + " E:" + err);
+
+        System.out.println("\n---\n" + t + "\n---\n");
+
+        Timer timer = new Timer(t, e -> {
+            posY += globalI;
+
+            if(isRunning) {
+                repaint();
+            }
+        });
+
+        timer.start();
+    }
+
+	public void startMoving() {
+
+        System.out.println("---");
+        System.out.println(">>Last " + chan.getLastTick());
+        System.out.println(">>>BPM " + song.getBPM());
+        System.out.println(">>>TPS " + song.getTicksPerSecond());
+        System.out.println(">>>FPS " + song.getFramesPerSecond());
+
+        float err = (float) ((1000 / song.getFramesPerSecond() / 2) - Math.ceil(1000 / song.getFramesPerSecond() / 2));
 
 		int t = (int)(Math.ceil(1000 / song.getFramesPerSecond() / 2));
 		//int t = (int)(song.getFramesPerSecond());
 
+        System.out.println("t: " + t + " a:" + (song.getFramesPerSecond()) + " E:" + err);
+        System.out.println("t: " + t + " a:" + (1000 / song.getFramesPerSecond() / 2) + " E:" + err);
+
 		System.out.println("\n---\n" + t + "\n---\n");
 
-		Timer timer = new Timer(t, e -> {
+
+//        double rps = 1000 / song.getFramesPerSecond(); // rafraich. par secs
+        double rps = 1000 / 10; // rafraich. par secs
+
+//        globalI = rps / 10;
+        globalI = rps / song.getFramesPerSecond();
+
+        System.out.println("global i: " + globalI);
+
+
+		Timer timer = new Timer(10, e -> {
+//			posY += globalI;
 			posY += globalI;
 
 			if(isRunning) {
@@ -186,17 +218,18 @@ public class GamePanel extends JPanel implements KeyListener {
 		timer.start();
 	}
 	
-	private boolean oneNoteInSection(int line){
+	private boolean oneNoteInSection(int line) {
 		for(Note n : chan.getLine(line).getNotes()){
 			if(n.isInSection()){
 				return true;
 			}
 		}
+
 		return false;
 	}
 	
-	private void checkLine(int line){
-		if(oneNoteInSection(line)){
+	private void checkLine(int line) {
+		if(oneNoteInSection(line)) {
 			score += 100;
 		}else{
 			score = score == 0 ? 0 : score - 100;
