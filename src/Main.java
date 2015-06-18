@@ -11,8 +11,13 @@ import java.awt.*;
 
 public class Main {
 
+    /**
+     * Main
+     * @param args
+     */
     public static void main(String[] args) {
 
+        // Use default OS UI
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
@@ -26,6 +31,7 @@ public class Main {
             e.printStackTrace();
         }
 
+        // Create the choice panel window
         JFrame frame = new JFrame();
         frame.add(new ChoicePanel());
         frame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));

@@ -24,7 +24,7 @@ public class TapyGui {
         GamePanel gamePane = new GamePanel(s, chanNb, frame);
         frame.add(gamePane);
         gamePane.repaint();
-        gamePane.startMovingOLD();
+        gamePane.startMoving();
 
         frame.setIgnoreRepaint(true); // Make active rendering possible
 

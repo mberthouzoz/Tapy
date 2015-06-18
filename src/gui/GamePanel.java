@@ -141,12 +141,7 @@ public class GamePanel extends JPanel implements KeyListener {
             frame.setLocationRelativeTo(null);
         }
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -165,19 +160,25 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
     @Override
     public void keyReleased(KeyEvent e) {
     }
 
-    public void startMovingOLD() {
-        float err = Math.abs((float) ((1000 / song.getFramesPerSecond() / 2) - (1000 / song.getFramesPerSecond() / 2)));
+    /**
+     * Main loop
+     */
+    public void startMoving() {
+        float err = Math.abs((float) Math.ceil((1000 / song.getFramesPerSecond() / 2) - (1000 / song.getFramesPerSecond() / 2)));
 
-        int t = (int) ((1000 / song.getFramesPerSecond() / 2));
-        //int t = (int)(song.getFramesPerSecond());
+        int t = (int) ((1000 / song.getFramesPerSecond() / 2)) + 1;
 
         System.out.println("t: " + t + " a:" + (1000 / song.getFramesPerSecond() / 2) + " E:" + err);
-
-        System.out.println("\n---\n" + t + "\n---\n");
 
         iTimer = 1;
         timer = new Timer(t, e -> {
@@ -197,48 +198,6 @@ public class GamePanel extends JPanel implements KeyListener {
             if (isRunning) {
                 repaint();
             }
-        });
-
-        timer.start();
-    }
-
-
-    public void startMoving() {
-
-        System.out.println("---");
-        System.out.println(">>Last " + chan.getLastTick());
-        System.out.println(">>>BPM " + song.getBPM());
-        System.out.println(">>>TPS " + song.getTicksPerSecond());
-        System.out.println(">>>FPS " + song.getFramesPerSecond());
-
-        float err = (float) ((1000 / song.getFramesPerSecond() / 2) - Math.ceil(1000 / song.getFramesPerSecond() / 2));
-
-        int t = (int) (Math.ceil(1000 / song.getFramesPerSecond() / 2));
-        //int t = (int)(song.getFramesPerSecond());
-
-        System.out.println("t: " + t + " a:" + (song.getFramesPerSecond()) + " E:" + err);
-        System.out.println("t: " + t + " a:" + (1000 / song.getFramesPerSecond() / 2) + " E:" + err);
-
-        System.out.println("\n---\n" + t + "\n---\n");
-
-
-//        double rps = 1000 / song.getFramesPerSecond(); // rafraich. par secs
-        double rps = 1000 / 10; // rafraich. par secs
-
-//        globalI = rps / 10;
-        globalI = rps / song.getFramesPerSecond();
-        System.out.println(song.getFramesPerSecond());
-        System.out.println("global i: " + globalI);
-
-
-        timer = new Timer(10, e -> {
-//			posY += globalI;
-            posY += globalI;
-
-            if (isRunning) {
-                repaint();
-            }
-
         });
 
         timer.start();
