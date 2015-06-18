@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private JLabel scoreLabel;
     private JFrame gameFrame;
     private Timer timer;
+    private int iTimer;
 
     public GamePanel(Song s, int chanNb, JFrame gameFrame) {
         this.gameFrame = gameFrame;
@@ -169,17 +170,29 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     public void startMovingOLD() {
-        float err = (float) ((1000 / song.getFramesPerSecond() / 2) - Math.ceil(1000 / song.getFramesPerSecond() / 2));
+        float err = Math.abs((float) ((1000 / song.getFramesPerSecond() / 2) - (1000 / song.getFramesPerSecond() / 2)));
 
-        int t = (int) (Math.ceil(1000 / song.getFramesPerSecond() / 2));
+        int t = (int) ((1000 / song.getFramesPerSecond() / 2));
         //int t = (int)(song.getFramesPerSecond());
 
         System.out.println("t: " + t + " a:" + (1000 / song.getFramesPerSecond() / 2) + " E:" + err);
 
         System.out.println("\n---\n" + t + "\n---\n");
 
+        iTimer = 1;
         timer = new Timer(t, e -> {
             posY += globalI;
+
+            iTimer++;
+
+            if(1 / iTimer <= err) {
+                try {
+                    Thread.sleep(1);
+                    iTimer = 1;
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
 
             if (isRunning) {
                 repaint();
